@@ -7,10 +7,12 @@ cd sam2
 git checkout 7e1596c0b6462eb1d1ba7e1492430fed95023598
 ```
 then, move the folder "annotation_simulation" of this repo into the root folder of the sam2 repo
+```
 project_root
-└── **annotation_simulation**
+└── annotation_simulation
 └── assets
 ...
+```
 
 Create a virutal enrironment (tested for Python 3.11.2) and install the dependencies from the original SAM 2 repository and additional packages
 ```
@@ -18,14 +20,14 @@ pip install -e .
 pip install "pandas>=2.2.2" "monai>=1.3.2" "SimpleITK>=2.3.1" "matplotlib>=3.9.1" "scipy>=1.14.0" "torch==2.4.0" "torchvision==0.19.0"
 python setup.py build_ext --inplace # see https://github.com/facebookresearch/sam2/issues/25
 ```
-# download SAM2 weights
+# Download SAM 2 weights
 ```
 cd project_root/checkpoints
 bash download_ckpts.sh 
 ```
 # Data preparation
 To simulate SAM 2-assisted annotation, you need a dataset organized in the following structure:
-
+```
 dataset_root/
 └── SAM_2_frames_4/
     ├── ImagesTr/
@@ -48,7 +50,7 @@ dataset_root/
         ├── patient_x.nii.gz
         └── patient_x+1.nii.gz
         ...
-
+```
 #### ImagesTr/
 
 Contains 8-bit PNG slices from CT or MRI scans.
@@ -60,9 +62,11 @@ coordinates_center.csv
 Located inside each patient folder and specifies the center slice and initial prompt coordinates used by SAM 2. The box coordinates were derived by the ground truth segmentation masks.
 
 example:
-class  label_id  bbox_x1  bbox_y1  bbox_x2  bbox_y2
-1      1         81       229      89       238     # box prompt for first tumor's center
-1      2         177      309      197      336     # box prompt for second tumor's center
+| class | label_id | bbox_x1 | bbox_y1 | bbox_x2 | bbox_y2 | Description                     |
+|-------|----------|---------|---------|---------|---------|---------------------------------|
+| 1     | 1        | 81      | 229     | 89      | 238     | Box prompt for first tumor      |
+| 1     | 2        | 177     | 309     | 197     | 336     | Box prompt for second tumor     |
+
 ...
 
 #### labeled_labelsTr/
@@ -89,7 +93,7 @@ Values:
 
     1 = foreground (e.g. tumor tissue)
 
-# adjust code
+# Adjust code
 if you have extracted the slices as png, you have to adjust project_root/sam2/utils/misc.py
 change line
 ```
@@ -105,3 +109,7 @@ For your preprocessed dataset and dice_thresh (tau parameter in the paper), run
 python project_root/annotation_simulation/video_prediction.py --prompt box --dice_thresh 0.9 --dataset_path /path/to/dataset_root
 
 The script outputs the segmentation masks with which you can then train a segmentation model, e.g. using nnUNet (see their repository for more details).
+
+# Reference
+If you find our work useful in your research or if you use parts of this code please consider citing our publication.
+TODO
