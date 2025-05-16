@@ -1,6 +1,7 @@
 # Overview
 This is the code that was used to create the SAM 2-assisted segmentation masks in paper "Reducing Manual Workload in CT and MRI Annotation with the Segment Anything Model 2". This code only works in combination with the original SAM 2 repository (see below).
 # Installation
+First, clone the SAM 2 repository.
 ```
 git clone https://github.com/facebookresearch/sam2.git
 cd sam2
