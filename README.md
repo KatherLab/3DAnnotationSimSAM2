@@ -105,9 +105,9 @@ if os.path.splitext(p)[-1] in [".jpg", ".jpeg", ".JPG", ".JPEG", '.png']
 ```
 # Run annotation simulation
 For your preprocessed dataset and dice_thresh (tau parameter in the paper), run
-
+```
 python project_root/annotation_simulation/video_prediction.py --prompt box --dice_thresh 0.9 --dataset_path /path/to/dataset_root
-
+```
 The script outputs the segmentation masks with which you can then train a segmentation model, e.g. using nnUNet (see their repository for more details).
 
 # Reference
